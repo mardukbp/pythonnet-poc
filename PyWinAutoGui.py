@@ -2,25 +2,44 @@ import glob
 import inspect
 import os
 import shutil
+import sys
 from pathlib import Path
-
-import clr
-from System.Reflection import Assembly # type: ignore
-from System.IO import File # type: ignore
-from System import Activator
 
 cwd = Path(__file__).parent
 dlls = cwd / 'DLLs' 
 dll = 'WinAutoGui.dll'
 namespace = 'WinAutoGui'
 class_name = 'WinAutoGui'
+build_dir = cwd / 'src' / 'WinAutoGuiLib' / 'build'
+publish_dir = cwd / 'src' / 'WinAutoGuiLib' / 'publish'
+
+from clr_loader import get_coreclr
+from pythonnet import set_runtime
+rt = get_coreclr(runtime_config = str(publish_dir / 'WinAutoGui.runtimeconfig.json'))
+set_runtime(rt)
+
+import clr
+
+from System.Reflection import Assembly # type: ignore
+from System.IO import File # type: ignore
+from System import Activator
+
 
 def copy_dlls():
-    if dlls.exists(): shutil.rmtree(dlls)
-    shutil.copytree(cwd / 'src' / 'WinAutoGuiLib' / 'publish', dlls)
+    try:
+        if dlls.exists(): shutil.rmtree(dlls)
+        os.mkdir(dlls)
+        for assembly in glob.glob(str(publish_dir) + "/*.dll"):
+            if not assembly.endswith(dll):
+                shutil.copy(assembly, dlls)
+
+        shutil.copy(publish_dir / dll, cwd)
+    except:
+        pass
 
 def update_dll():
-    shutil.copy(cwd / 'src' / 'WinAutoGuiLib' / 'build' / dll, dlls)
+    if build_dir.exists():
+        shutil.copy(build_dir / dll, cwd)
 
 def rename_stubs():
     stubs_pyi = cwd / 'typings' / namespace / '__init__.pyi'
@@ -39,10 +58,10 @@ def get_functions(clazz):
     }
 
 def load_libraries(dir: str):
-    return {
-        Path(dll).name: Assembly.Load(File.ReadAllBytes(str(dll)))
-        for dll in glob.glob(dir + "/*.dll")
-    }
+    sys.path.append(dir)
+    
+    for dll in glob.glob(dir + "/*.dll"):
+        clr.AddReference(Path(dll).stem) # type: ignore
 
 def get_class(assembly):
     obj_type = assembly.GetType(namespace + '.' + class_name)
@@ -55,13 +74,14 @@ def get_class_stub():
 class PyWinAutoGui:
     def __init__(self):
         copy_dlls()
+        load_libraries(str(dlls))
         self.init()
 
     def init(self):
         update_dll()
         rename_stubs()
-        libs = load_libraries(str(dlls))
-        self.library = get_class(libs.get(dll))
+        assembly = Assembly.Load(File.ReadAllBytes(str(cwd / dll)))
+        self.library = get_class(assembly)
         self.lib_stub = get_class_stub()
 
     def get_keyword_arguments(self, name):

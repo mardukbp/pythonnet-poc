@@ -1,12 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <AssemblyName>WinAutoGui</AssemblyName>
     <TypingsDir>../../typings</TypingsDir>
     <BuildDir>build</BuildDir>
     <PublishDir>publish</PublishDir>
+    <UseWPF>true</UseWPF>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -16,6 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="FlaUI.UIA2" Version="4.0.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>
   
   <Target Name="CopyFiles" AfterTargets="AfterBuild">
@@ -23,7 +26,6 @@
       <BuildFiles Include="$(TargetDir)\*.*" />
     </ItemGroup>
     <Copy SourceFiles="@(BuildFiles)" DestinationFolder="$(BuildDir)" />
-    <Exec Command="GeneratePythonNetStubs --roll-forward LatestMajor --dest-path=$(TypingsDir) --target-dlls=$(TargetDir)/$(AssemblyName).dll" />
   </Target>
 
   <Target Name="RemoveBuildDir" BeforeTargets="BeforeBuild">
