@@ -6,6 +6,6 @@
         "typings"
     ],
     "robotcode.robot.pythonPath": [
-        "."
+        ".", "DLLs"
     ],
 }
