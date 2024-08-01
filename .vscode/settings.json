@@ -4,5 +4,8 @@
     ],
     "python.analysis.extraPaths": [
         "typings"
-    ]
+    ],
+    "robotcode.robot.pythonPath": [
+        "."
+    ],
 }

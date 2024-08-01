@@ -79,6 +79,20 @@ files = [
 cffi = ">=1.13"
 
 [[package]]
+name = "prompt-toolkit"
+version = "3.0.47"
+description = "Library for building powerful interactive command lines in Python"
+optional = false
+python-versions = ">=3.7.0"
+files = [
+    {file = "prompt_toolkit-3.0.47-py3-none-any.whl", hash = "sha256:0d7bfa67001d5e39d02c224b663abc33687405033a8c422d0d675a5a13361d10"},
+    {file = "prompt_toolkit-3.0.47.tar.gz", hash = "sha256:1e1b29cb58080b1e69f207c893a1a7bf16d127a5c30c9d17a25a5d77792e5360"},
+]
+
+[package.dependencies]
+wcwidth = "*"
+
+[[package]]
 name = "pycparser"
 version = "2.22"
 description = "C parser in Python"
@@ -87,6 +101,30 @@ python-versions = ">=3.8"
 files = [
     {file = "pycparser-2.22-py3-none-any.whl", hash = "sha256:c3702b6d3dd8c7abc1afa565d7e63d53a1d0bd86cdc24edd75470f4de499cfcc"},
     {file = "pycparser-2.22.tar.gz", hash = "sha256:491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6"},
+]
+
+[[package]]
+name = "pygments"
+version = "2.18.0"
+description = "Pygments is a syntax highlighting package written in Python."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pygments-2.18.0-py3-none-any.whl", hash = "sha256:b8e6aca0523f3ab76fee51799c488e38782ac06eafcf95e7ba832985c8e7b13a"},
+    {file = "pygments-2.18.0.tar.gz", hash = "sha256:786ff802f32e91311bff3889f6e9a86e81505fe99f2735bb6d60ae0c5004f199"},
+]
+
+[package.extras]
+windows-terminal = ["colorama (>=0.4.6)"]
+
+[[package]]
+name = "pyperclip"
+version = "1.9.0"
+description = "A cross-platform clipboard module for Python. (Only handles plain text for now.)"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pyperclip-1.9.0.tar.gz", hash = "sha256:b7de0142ddc81bfc5c7507eea19da920b92252b548b96186caf94a5e2527d310"},
 ]
 
 [[package]]
@@ -103,7 +141,46 @@ files = [
 [package.dependencies]
 clr-loader = ">=0.2.6,<0.3.0"
 
+[[package]]
+name = "robotframework"
+version = "7.0.1"
+description = "Generic automation framework for acceptance testing and robotic process automation (RPA)"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "robotframework-7.0.1-py3-none-any.whl", hash = "sha256:7f4691492311f10e3be69d8ca2f2cae6b6490030d59683d23cd7909088c286d8"},
+    {file = "robotframework-7.0.1.zip", hash = "sha256:58d01b84cd7eccea69f2dbe13cbcbff1299e551168d3b88c25617b0c9d6ddc75"},
+]
+
+[[package]]
+name = "robotframework-debug"
+version = "4.5.0"
+description = "RobotFramework debug shell"
+optional = false
+python-versions = ">=3.8.0"
+files = [
+    {file = "robotframework-debug-4.5.0.tar.gz", hash = "sha256:925d830cd7c17d578d9822bfb969147d153da057369e31a17e205144a368e8a4"},
+    {file = "robotframework_debug-4.5.0-py3-none-any.whl", hash = "sha256:7591c3418016a0356158c43e47548a9e9c4ca1ac51b33d7267fccf4153c0952e"},
+]
+
+[package.dependencies]
+prompt-toolkit = ">=3.0.38"
+pygments = ">=2.14.0"
+pyperclip = ">=1.8.2"
+robotframework = ">=5.0,<8.0"
+
+[[package]]
+name = "wcwidth"
+version = "0.2.13"
+description = "Measures the displayed width of unicode strings in a terminal"
+optional = false
+python-versions = "*"
+files = [
+    {file = "wcwidth-0.2.13-py2.py3-none-any.whl", hash = "sha256:3da69048e4540d84af32131829ff948f1e022c1c6bdb8d6102117aac784f6859"},
+    {file = "wcwidth-0.2.13.tar.gz", hash = "sha256:72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"},
+]
+
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "478c32259a3e5d49af5932a069d84383e514e468f6cbbcc51c580d7cadec7ad9"
+content-hash = "86e7a86867a4501c9e4c3d269f8b261d9d677ef7e7ff6cd727dd460fd7603ddb"

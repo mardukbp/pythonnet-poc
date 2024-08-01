@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0-windows</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <AssemblyName>WinAutoGui</AssemblyName>
+    <TypingsDir>../../typings</TypingsDir>
+    <BuildDir>build</BuildDir>
+    <PublishDir>publish</PublishDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FlaUI.UIA2" Version="4.0.0" />
+  </ItemGroup>
+  
+  <Target Name="CopyFiles" AfterTargets="AfterBuild">
+    <ItemGroup>
+      <BuildFiles Include="$(TargetDir)\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(BuildFiles)" DestinationFolder="$(BuildDir)" />
+    <Exec Command="GeneratePythonNetStubs --roll-forward LatestMajor --dest-path=$(TypingsDir) --target-dlls=$(TargetDir)/$(AssemblyName).dll" />
+  </Target>
+
+  <Target Name="RemoveBuildDir" BeforeTargets="BeforeBuild">
+      <RemoveDir Directories="$(BuildDir)" />
+  </Target>
+
+  <Target Name="RemovePublishDir" BeforeTargets="BeforeBuild" Condition="'$(Configuration)'=='Release'">
+      <RemoveDir Directories="$(BaseIntermediateOutputPath)" /><!-- obj -->
+      <RemoveDir Directories="$(BaseOutputPath)" /><!-- bin -->
+      <RemoveDir Directories="$(PublishDir)" />
+      <Exec Command="dotnet restore" />
+  </Target>
+</Project>
