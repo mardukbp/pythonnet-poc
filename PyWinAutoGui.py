@@ -47,7 +47,7 @@ def rename_stubs():
 
     if stubs_pyi.exists():
         if stubs_py.exists(): os.remove(stubs_py)
-        os.rename(stubs_pyi, stubs_py)
+        shutil.copy(stubs_pyi, stubs_py)
 
 def get_functions(clazz):
     functions = inspect.getmembers(clazz, predicate=inspect.isfunction)

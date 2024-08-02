@@ -38,4 +38,8 @@
       <RemoveDir Directories="$(PublishDir)" />
       <Exec Command="dotnet restore" />
   </Target>
+
+  <Target Name="GenerateStubs" AfterTargets="AfterBuild">
+    <Exec Command="GeneratePythonNetStubs --roll-forward LatestMajor --dest-path=$(TypingsDir) --target-dlls=$(TargetPath)"/>
+  </Target>
 </Project>
